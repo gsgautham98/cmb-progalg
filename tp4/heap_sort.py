@@ -1,7 +1,4 @@
 from math import floor
-from time import time
-from random import randint
-import matplotlib.pyplot as plt
 
 def swap(a, x, y):
     temp = a[x]
@@ -38,14 +35,3 @@ def heap_sort_fn(a):
         last-=1
         a = sift_down(a, 0, last)
     return a
-
-if __name__ == "__main__":
-    A = [randint(1, 100) for _ in range(1000)]
-    start_time = time()
-    A_sorted = heap_sort_fn(A)
-    print("Final array ", A_sorted)
-    print(time() - start_time)
-    plt.plot(A, A_sorted, "red")
-    plt.show()
-
-#Time taken: 0.036217689514160156s

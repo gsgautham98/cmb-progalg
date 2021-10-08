@@ -1,4 +1,7 @@
 from math import floor
+from random import randint
+from time import time
+import matplotlib.pyplot as plt
 
 def sequential_search(item, sequence):
     item_found = False
@@ -19,5 +22,21 @@ def binary_search(item, sequence):
     else:
         return False
 
-A = [1, 8, 3, 7, 9, 2, 6, 5, 1]
-print(sequential_search(8, A), binary_search(8, sorted(A)))
+inputs = (8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096)
+time_seqsrch = []
+time_binsrch = []
+
+for i in inputs:
+    A = [randint(1, 10000) for _ in range(i)]
+    start_seqsrch = time()
+    sequential_search(81, A)
+    time_seqsrch.append(time() - start_seqsrch)
+    start_binsrch = time()
+    binary_search(81, A)
+    time_binsrch.append(time() - start_binsrch)
+
+plot_seqsrch = plt.plot(inputs, time_seqsrch, "blue", label="Sequential search")
+plot_binsrch = plt.plot(inputs, time_binsrch, "red", label="Binary search")
+plt.title("Comparison between time complexities of searching methods")
+plt.legend()
+plt.show()
