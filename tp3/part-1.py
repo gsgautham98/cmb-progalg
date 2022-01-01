@@ -11,7 +11,7 @@ def three_plots(N, R):
     plt.subplot(311)
     plt.plot(N, R, color='blue')
     plt.subplot(312)
-    plt.plot(R[0:-1], R[1:], color='black')
+    plt.scatter(R[0:-1], R[1:], color='black')
     plt.subplot(313)
     plt.hist(R)
     plt.show()
