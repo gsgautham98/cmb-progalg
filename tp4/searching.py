@@ -13,27 +13,35 @@ def sequential_search(item, sequence):
 
 def binary_search(item, sequence):
     midpoint = floor(len(sequence) / 2)
-    if item > sequence[midpoint] and len(sequence) > 1:
-        return binary_search(item, sequence[midpoint+1:])
-    elif item < sequence[midpoint] and len(sequence) > 1:
-        return binary_search(item, sequence[:midpoint])
+    if len(sequence) < 1:
+        return False
     elif item == sequence[midpoint]:
         return True
+    elif item > sequence[midpoint]:
+        return binary_search(item, sequence[midpoint+1:])
+    elif item < sequence[midpoint]:
+        return binary_search(item, sequence[:midpoint])
     else:
         return False
 
-inputs = (8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096)
+inputs = (8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536)
 time_seqsrch = []
 time_binsrch = []
 
 for i in inputs:
-    A = [randint(1, 10000) for _ in range(i)]
-    start_seqsrch = time()
-    sequential_search(81, A)
-    time_seqsrch.append(time() - start_seqsrch)
-    start_binsrch = time()
-    binary_search(81, A)
-    time_binsrch.append(time() - start_binsrch)
+    A = sorted([randint(1, i) for _ in range(i)])
+    for _ in range(1000):
+        query = randint(1, i)
+        tempseq = []
+        start_seqsrch = time()
+        sequential_search(query, A)
+        tempseq.append(time() - start_seqsrch)
+        tempbin = []
+        start_binsrch = time()
+        binary_search(query, A)
+        tempbin.append(time() - start_binsrch)
+    time_seqsrch.append(sum(tempseq) / len(tempseq))
+    time_binsrch.append(sum(tempbin) / len(tempbin))
 
 plot_seqsrch = plt.plot(inputs, time_seqsrch, "blue", label="Sequential search")
 plot_binsrch = plt.plot(inputs, time_binsrch, "red", label="Binary search")
