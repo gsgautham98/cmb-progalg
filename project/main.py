@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from automata1 import updater
-from genalg import calculate_fitness, pool_selector, crossover
+from automata import updater1
+from genalg import calculate_fitness1, pool_selector, crossover
 
 if __name__ == "__main__":
     N = 100
@@ -14,7 +14,7 @@ if __name__ == "__main__":
     # print("Initial population is ", population)
     t = 1
     while t < 10:
-        fitnesses = calculate_fitness(population, generations, N, space)
+        fitnesses = calculate_fitness1(population, generations, N, space)
         parents = pool_selector(population, fitnesses, 3)
         offspring = crossover(parents, 2)
         population = np.vstack((parents, offspring))
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         for chromosome in population:
             space = ispace
             for _ in range(1, generations):
-                space = updater(space, N, chromosome)
+                space = updater1(space, N, chromosome)
                 if np.all(space) == 1:
                     solutions.append(chromosome)
                     break

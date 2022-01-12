@@ -1,13 +1,13 @@
 import numpy as np
 from math import floor
-from automata1 import updater
+from automata import updater1
 
-def calculate_fitness(population, generations, size, space):
+def calculate_fitness1(population, generations, size, space):
     fitnesses = []
     for chromosome in population:
         rule = chromosome
         for _ in range(generations):
-            space = updater(space, size, rule)
+            space = updater1(space, size, rule)
         fitnesses.append(np.sum(space))
     return np.array(fitnesses)
 
