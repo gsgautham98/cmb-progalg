@@ -6,7 +6,7 @@ from genalg import calculate_fitness1, pool_selector, crossover
 if __name__ == "__main__":
     N = 100
     space = np.random.randint(2, size=N)
-    print("Initial space is ", space)
+    # print("Initial space is ", space)
     ispace = np.copy(space)
     generations = 20
 

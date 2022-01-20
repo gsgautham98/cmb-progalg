@@ -7,19 +7,20 @@ def read_file():
             space.append([int(i) for i in list(s[0])])
         return space
 
-def transition1(rule, neighbours):
+def transition1(neighbours, rule):
     return rule[neighbours]
 
 def transition2(neighbours, rule, current):
     return rule[current][neighbours]
 
-def gradient(s, r, c, t):
-    g = np.zeros((len(s), len(s[0])), dtype=float)
-    for i in range(r):
-        for j in range(c):
-            ed = ((i - t[0]) ** 2 + (j - t[1]) ** 2) ** 0.5
-            g[i, j] = 1 / (ed + 0.15)
-    return g
+def gradient(size, tgt):
+    gradspace = np.zeros(size, dtype=float)
+    for i in range(size[0]):
+        for j in range(size[1]):
+            eudist = ((i - tgt[0]) ** 2 + (j - tgt[1]) ** 2) ** 0.5
+            gradspace[i, j] = -eudist
+    gradspace[tgt[0]:tgt[0]+2, tgt[1]:tgt[1]+2] = np.array([[100, 100], [100, 100]])
+    return gradspace
 
 def updater1(space, size, rule):
     tempspace = np.copy(space)
@@ -35,20 +36,20 @@ def updater1(space, size, rule):
 
 def updater2(space, size, rule):
     tempspace = np.copy(space)
-    for i in range(2, size[0]-2):
-        for j in range(2, size[1]-2):
+    for i in range(1, size[0]-1):
+        for j in range(1, size[1]-1):
             neighbours = space[i, j+1] + space[i, j-1] + space[i+1, j] + space[i-1, j] + space[i+1, j+1] + space[i-1, j-1] + space[i+1, j-1] + space[i-1, j+1]
             tempspace[i, j] = transition2(neighbours, rule, space[i, j])
-    space[:] = tempspace[:] 
+    space[:] = tempspace[:]
     return space
 
-def updater2a(frame_number, img, space, N, rule):
+def updater2i(frame_number, img, ax, space, size, rule):
     tempspace = np.copy(space)
-    for i in range(2, N-2):
-        for j in range(2, N-2):
+    for i in range(1, size[0]-1):
+        for j in range(1, size[1]-1):
             neighbours = space[i, j+1] + space[i, j-1] + space[i+1, j] + space[i-1, j] + space[i+1, j+1] + space[i-1, j-1] + space[i+1, j-1] + space[i-1, j+1]
-            tempspace[i, j] = transition1(neighbours, rule) if neighbours != 0 else 0
+            tempspace[i, j] = transition2(neighbours, rule, space[i, j])
     img.set_data(tempspace)
-    space[:] = tempspace[:] 
-    # ax.set_xlabel(frame_number)
+    space[:] = tempspace[:]
+    ax.set_xlabel(frame_number)
     return img
