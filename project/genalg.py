@@ -14,9 +14,9 @@ def calculate_fitness2(population, iterations, size, space, funcspace, rule):
     nx, ny = size
     fitnesses = []
     for chromosome in population:
-        initial = np.hstack((np.vstack((chromosome, np.zeros(3, dtype=int))), np.zeros((4, 1), dtype=int)))
+        # initial = np.hstack((np.vstack((chromosome, np.zeros(3, dtype=int))), np.zeros((4, 1), dtype=int)))
         rx, ry = 4, 4
-        space[int(nx//2 - rx//2):int(nx//2 + rx//2), int(ny//2 - ry//2):int(ny//2 + ry//2)] = initial
+        space[int(nx//2 - rx//2):int(nx//2 + rx//2), int(ny//2 - ry//2):int(ny//2 + ry//2)] = chromosome
         for _ in range(iterations):
             space = updater2(space, size, rule)
         idxs = np.transpose(np.nonzero(space))
@@ -35,18 +35,17 @@ def crossover1(parents, number):
     offspring = np.empty((number, np.shape(parents)[1]), dtype=int)
     midway = floor(len(parents[0]) / 2)
     for n in range(number):
-        offspring[n, 0:midway] = parents[n, 0:midway]
-        offspring[n, midway:] = parents[-n-1, midway:]
+        offspring[n, 0:midway+1] = parents[n, 0:midway+1]
+        offspring[n, midway+1:] = parents[-n-1, midway+1:]
     offspring = mutation1(np.array(offspring))
     return offspring
 
 def crossover2(parents, number):
     offspring = np.empty((number, np.shape(parents)[1], np.shape(parents)[2]), dtype=int)
-    midway = ceil(np.shape(parents[0])[0] / 2)
-    l = len(parents)
+    breakoff = floor(np.shape(parents[0])[0] / 2)
     for n in range(number):
-        offspring[n][0:midway+1, :] = parents[n][0:midway+1, :]
-        offspring[n][midway+1:, :] = parents[-n-1][midway+1:, :]
+        offspring[n][0:breakoff+1, :] = parents[n][0:breakoff+1, :]
+        offspring[n][breakoff+1:, :] = parents[-n-1][breakoff+1:, :]
     offspring = mutation2(np.array(offspring))
     return offspring
 
@@ -66,7 +65,7 @@ def mutation2(offspring):
     switch = {0: 1, 1: 0}
     for n in range(len(offspring)):
         trial = np.random.uniform(0, 1)
-        if trial > 0.9:
+        if trial > 0.98:
             idx1, idx2 = np.random.randint(3, size=2, dtype=int)
             offspring[n][idx1, idx2] = switch[offspring[n][idx1, idx2]]
     return offspring

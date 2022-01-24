@@ -1,4 +1,5 @@
 import numpy as np
+from math import exp
 
 def read_file():
     with open("input", "r") as fhandle:
@@ -18,8 +19,7 @@ def gradient(size, tgt):
     for i in range(size[0]):
         for j in range(size[1]):
             eudist = ((i - tgt[0]) ** 2 + (j - tgt[1]) ** 2) ** 0.5
-            gradspace[i, j] = -eudist
-    gradspace[tgt[0]:tgt[0]+2, tgt[1]:tgt[1]+2] = np.array([[100, 100], [100, 100]])
+            gradspace[i, j] = 1 / exp(0.8 * eudist - 3)
     return gradspace
 
 def updater1(space, size, rule):
