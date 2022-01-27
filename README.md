@@ -4,4 +4,4 @@ Practical sessions completed.
 
 Project codes being updated in the _project_ folder.
 
-Project report will be uploaded by the morning of 25 January.
+Project report draft uploaded. Two sections to be updated.
