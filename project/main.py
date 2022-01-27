@@ -75,8 +75,8 @@ if __name__ == "__main__":
         space[int(nx//2 - rx//2):int(nx//2 + rx//2), int(ny//2 - ry//2):int(ny//2 + ry//2)] = np.random.randint(0, 2, (rx, ry))
         ispace = np.copy(space)
 
-        iters = 27
-        gens = 30
+        iters = 28
+        gens = 40
         population = np.array([np.random.randint(2, size=9) for _ in range(80)])
 
         g = 1
