@@ -1,7 +1,7 @@
-# CMB_BIOINFO_PROG Gautham Ganesh
+# Practical sessions and project files for the introductory course Programming and Algorithms (CMB- M1)
 
 Practical sessions completed.
 
-Project codes being updated in the _project_ folder.
+Project codes updated in the _project_ folder.
 
-Project report draft uploaded. Two sections to be updated.
+Project report uploaded.
